@@ -3,6 +3,9 @@ const pool= require('../config/db.js')
 // import pool from '../config/db.js'
 
 const FindUserByEmail = async (email, role) => {
+
+ 
+
            
     let table;
        
@@ -27,7 +30,9 @@ const FindUserByEmail = async (email, role) => {
   
     return result.rows[0] || null;
 
+
+
+
 }
 
 module.exports= FindUserByEmail;
-// export default FindUserByEmail

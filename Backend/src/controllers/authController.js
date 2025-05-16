@@ -13,7 +13,7 @@ const login = async(req,res)=>{
     }
     try{
        const user= await FindUserByEmail(email,role)
-       console.log(` user parrword  ${user.password} password${password}`)
+      //  console.log(` user parrword  ${user.password} password${password}`)
     //    const isMatch = await compare(password,user.password)
        if(password!== user.password) {
         return res.status(401).json({error:"Invalid Password"})
