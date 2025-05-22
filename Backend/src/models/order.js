@@ -34,4 +34,4 @@ const FindAllOrder = async (userId, role) => {
 
 }
 
-module.exports= FindAllOrder
+module.exports = FindAllOrder

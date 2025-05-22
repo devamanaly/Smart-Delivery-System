@@ -1,4 +1,4 @@
-const express =require('express')
+const express = require('express')
 const cors = require('cors')
 const dotenv = require('dotenv')
 require('dotenv').config();
@@ -26,18 +26,18 @@ App.use(express.json())
 
 
 
-App.use((req,res,next)=>{
-    logger.info(`${req.method} ${req.url} `)
-    next();
+App.use((req, res, next) => {
+  logger.info(`${req.method} ${req.url} `)
+  next();
 })
 
 App.use('/auth', authRoute)
-App.use('/orders' , orderRoute)
+App.use('/orders', orderRoute)
 // App.use('')
-App.use((err,req,res,next)=>{
-    // logger.error(err.message);
-    res.status(500).json({ error: `Internal server error ${err}` });
-}); 
+App.use((err, req, res, next) => {
+  // logger.error(err.message);
+  res.status(500).json({ error: `Internal server error ${err}` });
+});
 
-module.exports =logger;
-module.exports= App;
+module.exports = logger;
+// module.exports = App;

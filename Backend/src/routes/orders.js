@@ -1,9 +1,9 @@
 const express = require('express');
-const auth= require('../middleware/auth')
+const auth = require('../middleware/auth')
 const getOrders = require('../models/order')
 const orderRoutes = express.Router();
 
-orderRoutes.get('/', auth , getOrders)
+orderRoutes.get('/', auth, getOrders)
 
-module.exports=orderRoutes
+module.exports = orderRoutes
 
