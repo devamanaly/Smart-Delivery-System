@@ -4,10 +4,10 @@ const Login = require('../controllers/authController')
 const registerMerchant = require('../controllers/merchantController')
 const uploadFieldMiddleware = require('../middleware/uploads')
 
-router.post('/register-merchant',uploadFieldMiddleware,registerMerchant)
+router.post('/register-merchant', uploadFieldMiddleware, registerMerchant)
 
-router.post('/login',Login)
+router.post('/login', Login)
 
-module.exports=router
+module.exports = router
 
 

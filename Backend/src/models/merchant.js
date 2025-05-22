@@ -1,7 +1,7 @@
 const pool = require('../config/db')
 const bcrypt = require('bcrypt')
 
-const createMerchant = async (business_name, business_type, business_category,business_address, business_description, opening_hours, closing_hours,  owner_full_name, owner_phone, email, role_in_business, owner_national_id,  password, business_license_path) => {
+const createMerchant = async (business_name, business_type, business_category, business_address, business_description, opening_hours, closing_hours, owner_full_name, owner_phone, email, role_in_business, owner_national_id, password, business_license_path) => {
 
     try {
 
@@ -13,7 +13,7 @@ const createMerchant = async (business_name, business_type, business_category,bu
       RETURNING * ;
       `
         const values = [
-            business_name, business_type, business_category,business_address, business_description, opening_hours, closing_hours,  owner_full_name, owner_phone, email, role_in_business, owner_national_id,  hashPassword, business_license_path
+            business_name, business_type, business_category, business_address, business_description, opening_hours, closing_hours, owner_full_name, owner_phone, email, role_in_business, owner_national_id, hashPassword, business_license_path
         ]
 
         const result = await pool.query(query, values)
@@ -29,4 +29,4 @@ const createMerchant = async (business_name, business_type, business_category,bu
 
 }
 
-module.exports= createMerchant
+module.exports = createMerchant
