@@ -5,3 +5,5 @@ uploads/
 dist/
 combined.log
 error.log
+
+/src/generated/prisma

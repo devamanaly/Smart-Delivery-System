@@ -1,12 +1,15 @@
 const bcript = require("bcrypt");
-import DeliveryGuyCreate from "../models/delivery_guy";
+// import DeliveryGuyCreate from "../models/delivery_guy";
 import { Request, Response, NextFunction } from "express";
 import { Multer } from "multer";
 import fs from "fs";
 import path from "path";
+// import CreateDeliveryGuy from "../models/delivery_guy";
 import CreateDeliveryGuy from "../models/delivery_guy";
-const FindUserByEmail = require("../models/user");
-
+// const FindUserByEmail = require("../models/user");
+import FindUserByEmail from "../models/FindUser";
+import StringToBoolean from "../utils/booleanCHanger";
+import EmailService from "../utils/email.service";
 interface MulterFile {
   fieldname: string;
   originalname: string;
@@ -24,7 +27,7 @@ interface DeliveryGuyInput {
   password: string;
   confirm_password: string;
   current_location: string;
-  availability: boolean;
+  availability: string;
   phone: string;
   date_of_births: string;
   gender: string;
@@ -45,14 +48,18 @@ const registerDeliveryGuy = async (
     confirm_password,
     phone,
     date_of_births,
-    availability,
     current_location,
     vehicle_type,
     gender,
     vehicle_number_plate,
     national_id_number,
-    driving_license_number,
+    driving_license_number, 
+    availability,
+
   } = req.body;
+
+  // const {availability} = req.body
+  const avalaible= StringToBoolean(availability)
 
   if (
     !name ||
@@ -70,6 +77,8 @@ const registerDeliveryGuy = async (
   ) {
     return res.status(400).json({ Error: "All fields are required" });
   }
+
+  
 
   if (password !== confirm_password) {
     return res.status(400).json({ error: "The passwords do not match." });
@@ -112,25 +121,27 @@ const registerDeliveryGuy = async (
   }
 
   try {
-    const newCreateDeliveryGuy = new CreateDeliveryGuy({
+   await CreateDeliveryGuy(
       name,
       email,
       hash_password,
+      current_location,
+      avalaible,
       phone,
       date_of_birth,
-      current_location,
-      availability,
-      vehicle_type,
       gender,
-      vehicle_number_plate,
       national_id_number,
+      vehicle_type,
+      vehicle_number_plate,
       driving_license_number,
-      profile_photo_url,
       id_card_url,
       license_doc_url,
-    });
+      profile_photo_url,
+    );
 
-    await newCreateDeliveryGuy.save();
+    // await newCreateDeliveryGuy.save();
+    await EmailService.sendEmailToDeliveryGuy(email,name)
+    
     return res.status(200).json({ message: "the Delivery Guy is created" });
   } catch (err) {
     res.status(400).json({ message: `there is error in validation ${err}` });
