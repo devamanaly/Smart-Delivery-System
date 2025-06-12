@@ -1,0 +1,83 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model merchant {
+  merchant_id          Int       @id @default(autoincrement())
+  business_name        String
+  owner_phone          String
+  business_address     String
+  created_at           DateTime  @default(now())
+  business_type        String
+  business_category    String
+  business_description String?
+  opening_hours        String
+  closing_hours        String
+  owner_full_name      String
+  role_in_business     String
+  owner_national_id    String
+  email                String    @unique
+  hash_password             String
+
+  // Relation
+   orders               orders[]  @relation("MerchantOrders")
+}
+
+model delivery_guy {
+  delivery_guy_id        Int       @id @default(autoincrement())
+  name                   String
+  email                  String    @unique
+  hash_password          String
+  current_location       String
+  availability           Boolean
+  created_at             DateTime? @default(now())
+  updated_at             DateTime? @updatedAt
+  phone                  String
+  date_of_birth          DateTime
+  gender                 String
+  national_id_number     String    @unique
+  vehicle_type           String
+  vehicle_number_plate   String
+  driving_license_number String    @unique
+  id_card_url            String?
+  license_doc_url        String?
+  profile_photo_url      String?
+
+  // Relation
+   orders                 orders[]  @relation("DeliveryGuyOrders")
+}
+
+
+model orders {
+  order_id             Int           @id @default(autoincrement())
+  merchant_id          Int
+  delivery_guy_id      Int?
+  deliveryMethod       String
+  orderStatus          String 
+  trackingNumber       String        @unique
+  createdAt            DateTime      @default(now())
+  updatedAt            DateTime      @updatedAt
+  pickupAddress        String
+  dropoffAddress       String
+  receiverName         String
+  receiverPhone        String
+  receiverEmail        String
+  parcelSize           String
+  packageDescription   String
+  totalPrice           Float
+  
+  // Relations
+  merchant             merchant      @relation("MerchantOrders", fields: [merchant_id], references: [merchant_id])
+  delivery_guy         delivery_guy?  @relation("DeliveryGuyOrders", fields: [delivery_guy_id], references: [delivery_guy_id])
+}
+
+model tracking_counter {
+    id String @id
+    seq BigInt
+}

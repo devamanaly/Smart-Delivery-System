@@ -2,6 +2,13 @@ import express, { Express, Request, Response, NextFunction } from "express";
 import cors from "cors";
 import winston from "winston";
 import authRoutes from "./routes/auths";
+import merchantRoutes from "./routes/merchantAuth"
+// import loginRoutes from './routes/LoginAuth'
+import CreateOrder from './routes/CreateOrderAuth'
+import loginRoutes from './routes/LoginAuth'
+import publicTrackingRoutes from './routes/PublicTracking'
+import getOrders from './routes/getOrders'
+// import { getOrderPayload } from "./middleware/getOrderAuth";
 const app: Express = express();
 
 // Middleware
@@ -30,12 +37,22 @@ if (process.env.NODE_ENV !== "production") {
 }
 
 // Routes
-app.use("/auths", authRoutes);
+// app.use("/auths", authRoutes);
+app.use("/auth", merchantRoutes)
+app.use("/auth", loginRoutes )
+app.use("/create-order",CreateOrder)
+app.use('/public', publicTrackingRoutes)
+app.use('/',getOrders)
 
 // Error handling middleware
 app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
-  //   logger.error(err.stack);
+    logger.error(err.stack);
   res.status(500).json({ message: `Something went wrong! ${err} ` });
 });
+
+// / App.use((err, req, res, next) => {
+//   //   // logger.error(err.message);
+//   //   res.status(500).json({ error: `Internal server error ${err}` });
+//   // });
 
 export default app;

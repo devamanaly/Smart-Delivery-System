@@ -13,7 +13,7 @@ interface DeliveryGuyInput {
   password: string;
   confirm_password: string;
   current_location: string;
-  availability: boolean;
+  availability: string;
   phone: string;
   date_of_births: string;
   gender: string;
@@ -35,5 +35,7 @@ router.post(
   deliveryGuyUpload,
   registerDeliveryGuyHandler
 );
+
+
 
 export default router;
